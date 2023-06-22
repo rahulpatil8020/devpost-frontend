@@ -40,6 +40,30 @@ export const subscribe = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "auth/getUser",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await api.getUser(userId);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const unsubscribe = createAsyncThunk(
+  "auth/unsubscribe",
+  async (userId, thunkAPI) => {
+    try {
+      const response = await api.unsubscribe(userId);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -49,15 +73,6 @@ const authSlice = createSlice({
       state.user = null;
       state.status = "idle";
       state.error = null;
-    },
-    getUser: (state) => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (user) {
-        state.user = user;
-      } else {
-        state.user = null;
-        state.status = "idle";
-      }
     },
     setStatus: {
       reducer(state, action) {
@@ -106,10 +121,18 @@ const authSlice = createSlice({
       .addCase(subscribe.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(unsubscribe.fulfilled, (state, action) => {
+        console.log(action.payload, "unsubscribed");
+
+        state.user = action.payload;
       });
   },
 });
 
-export const { userLogout, getUser, setStatus } = authSlice.actions;
+export const { userLogout, setStatus } = authSlice.actions;
 
 export default authSlice.reducer;

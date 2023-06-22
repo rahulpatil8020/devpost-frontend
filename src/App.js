@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
+import Subscribed from "pages/Subscription/Subscribed";
+import Unsubscribed from "pages/Subscription/Unsubscribed";
 
 function App() {
   const mode = useSelector((state) => state.themeMode.mode);
@@ -19,6 +21,8 @@ function App() {
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route exact path="/" element={<HomePage />} />
+              <Route path="/subscribed" element={<Subscribed />} />
+              <Route path="unsubscribed" element={<Unsubscribed />} />
             </Route>
             <Route path="/auth" element={<AuthPage />} />
           </Routes>

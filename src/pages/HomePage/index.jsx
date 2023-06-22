@@ -7,7 +7,7 @@ const HomePage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const { user } = useSelector((state) => state.auth);
-  console.log(user?.user, "index page home");
+
   return (
     <Box>
       <Box
@@ -20,7 +20,7 @@ const HomePage = () => {
         <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
           Customize your interests {"       "} (select at least 5)
         </Typography>
-        <Form user={user?.user} />
+        <Form user={user} />
       </Box>
     </Box>
   );

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Chip, useTheme, Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { subscribe } from "store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import { subscribe, unsubscribe } from "store/slices/authSlice";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const interests = [
@@ -24,16 +25,16 @@ const interests = [
 ];
 
 const Form = ({ user }) => {
-  console.log(user);
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.auth);
-  console.log(status);
+  const navigate = useNavigate();
+  const { status } = useSelector((state) => state.auth);
   const [selectedInterests, setSelectedInterests] = useState([]);
   useEffect(() => {
-    if (user?.subscribed) {
+    if (user?.interests?.length > 0) {
       setSelectedInterests(user?.interests);
     }
   }, [user]);
+
   const theme = useTheme();
 
   const handleSubmit = () => {
@@ -42,8 +43,13 @@ const Form = ({ user }) => {
       interests: selectedInterests,
       subscribed: true,
     };
-
     dispatch(subscribe(updatedUser));
+    navigate("/subscribed");
+  };
+
+  const handleUnsubscribe = () => {
+    dispatch(unsubscribe(user._id));
+    navigate("/unsubscribed");
   };
 
   const showLoading = () => {
@@ -59,6 +65,7 @@ const Form = ({ user }) => {
       <div>
         {interests.map((interest) => (
           <Chip
+            key={interest}
             color={
               selectedInterests?.includes(interest) ? "success" : "primary"
             }
@@ -97,13 +104,7 @@ const Form = ({ user }) => {
         {showLoading()}
       </Button>
       {user?.subscribed && (
-        <Button
-          onClick={() => {
-            console.log("unsubscribed");
-          }}
-        >
-          Unsubscribe
-        </Button>
+        <Button onClick={handleUnsubscribe}>Unsubscribe</Button>
       )}
     </>
   );

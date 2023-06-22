@@ -12,17 +12,8 @@ import {
   useMediaQuery,
   Tooltip,
 } from "@mui/material";
-import {
-  Search,
-  Message,
-  DarkMode,
-  LightMode,
-  Notifications,
-  Help,
-  Menu,
-  Close,
-} from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { DarkMode, LightMode, Menu, Close } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
 import { setMode } from "../store/slices/themeModeSlice";
 import { useNavigate } from "react-router-dom";
 import { login } from "../store/slices/authSlice";
@@ -33,24 +24,19 @@ const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth?.user?.user);
+  // const user = useSelector((state) => state.auth?.user?.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const theme = useTheme();
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
   const background = theme.palette.background.default;
-  // const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, []);
-  // const fullName = "Rahul Patil";
+  const user = JSON.parse(localStorage.getItem("user"))?.user;
   const fullName = `${user?.firstName} ${user?.lastName}`;
 
-  const handleMessageClick = () => {
-    dispatch(login({ user: "admin", navigate: navigate }));
-  };
+  useEffect(() => {
+    dispatch(getUser(user._id));
+  }, []);
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
