@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://scholar-api.onrender.com",
+  baseURL: "https://scholar-api-5pjo.onrender.com",
 });
 
 export const signup = (formData) => API.post("/api/v1/user/signup", formData);
