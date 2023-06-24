@@ -37,7 +37,7 @@ Before proceeding, ensure that you have the following installed on your machine:
 ## Troubleshooting
 - If you encounter any errors during the installation or running of the application, make sure you have met all the prerequisites and followed the installation steps correctly.
 - If the port `3000` is already in use on your machine, you can change the port number in the application's configuration or stop the process that is using that port.
-- For further assistance, refer to the project's documentation or contact the project maintainers.
+- For further assistance, refer to the project's documentation or contact me at rahuldpatil20@gmail.com
 
 ## License
 [MIT License](LICENSE)
